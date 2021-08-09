@@ -1,5 +1,7 @@
 # Amazon Bot
-# Use browser automation to order an item from Amazon and have it delivered.
+# Objective: Use browser automation to order an item from Amazon and have it delivered.
+
+# WORK IN PROGRESS - NOT FINISHED YET
 
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
@@ -13,7 +15,7 @@ url = ('http://amazon.com')
 browser = webdriver.Chrome('/Users/thor/Downloads/chromedriver') # Optional argument, if not specified will search path.
 browser.get(url)
 
-search_item = 'eye drops'
+search_item = 'chapstick'
 
 search_box = browser.find_element_by_id('twotabsearchtextbox')
 search_box.click()
@@ -23,24 +25,37 @@ search_box.send_keys(search_item)
 search_submit = browser.find_element_by_id('nav-search-submit-button')
 search_submit.click()
 
-#Item: /Systane-Ultra-Lubricant-Drops-10-mL/dp/B0036B8QL0/
-try: 
-    time.sleep(3)
-    systane_eyedrops = browser.find_element_by_link_text('Systane Ultra Lubricant Eye Drops, Twin Pack, 10-mL Each,packaging may vary')
-    print("found linked text")
-    systane_eyedrops.click()
-    
-    
+#Item: Blistex Medicated Lip Balm, 0.15 Ounce (Pack of 3)
+browser.implicitly_wait(3)
+chapstick = browser.find_element_by_link_text('Blistex Medicated Lip Balm, 0.15 Ounce (Pack of 3)')
+chapstick.click()
 
-except Exception as error:
-    print("Failed: ", error)
+# One-time purchase selection
+try:
+    one_time_purchase = browser.find_element_by_link_text('One-time purchase:')
+    one_time_purchase.click()
+    print('Selected one-time purchase successfully')
 
-add_to_cart = browser.find_element_by_id('add-to-cart-button')
-add_to_cart.click()
+except Exception as error: 
+    print(error)
 
-proceed_to_checkout = browser.find_element_by_id('hlb-ptc-btn-native')
-proceed_to_checkout.click()
 
+try:
+    browser.implicitly_wait(3)
+    add_to_cart = browser.find_element_by_id('add-to-cart-button')
+    add_to_cart.click()
+    print('Added item to cart')
+
+except Exception as error: 
+    print(error)
+ 
+try:
+    browser.implicitly_wait(3)
+    proceed_to_checkout = browser.find_element_by_id('hlb-ptc-btn-native')
+    proceed_to_checkout.click()
+
+except Exception as error: 
+    print(error)
 
 enter_email = browser.findfind_element_by_id('ap_email')
 enter_email.click()
