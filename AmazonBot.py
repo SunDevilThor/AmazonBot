@@ -57,7 +57,7 @@ try:
 except Exception as error: 
     print(error)
 
-enter_email = browser.findfind_element_by_id('ap_email')
+enter_email = browser.find_element_by_id('ap_email')
 enter_email.click()
 
 
