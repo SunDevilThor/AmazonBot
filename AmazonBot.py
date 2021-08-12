@@ -57,32 +57,40 @@ chapstick = browser.find_element_by_link_text('Blistex Medicated Lip Balm, 0.15 
 chapstick.click()
 
 # One-time purchase selection
-one_time_purchase1 = browser.find_element_by_class_name ('a-declarative')
+one_time_purchase1 = browser.find_element_by_class_name('a-declarative')
 one_time_purchase1.click()
 print('Selected one-time purchase successfully')
 
+done_button = browser.find_element_by_name('glowDoneButton')
+done_button.click()
+print('Clicked on DONE button successfully')
+
 try:
-    browser.implicitly_wait(3)
+    one_time_purchase = browser.find_element_by_id('newAccordionRow')
+    one_time_purchase.click()
+    one_time_purchase.click()
+    one_time_purchase.click()
+    print('Selected one-time purchase successfully AGAIN')
+
+except Exception as error:
+    browser.stop_client
+    print('FAILED to select one time purchase')
+    print(error)
+
+try: 
+    browser.implicitly_wait(5)
     add_to_cart = browser.find_element_by_id('add-to-cart-button')
     add_to_cart.click()
     print('Added item to cart')
 
-except Exception as error: 
-    print('ADD TO CART FAILED')
-    print(error)
- 
-try: 
-    default_address = browser.find_element_by_class_name('a-button-input')
-    default_address.click()
-
 except Exception as error:
-    print('FAILED to select default shipping address')
+    print('FAILED to add item to cart')
     print(error)
 
-try:
-    done_button = browser.find_element_by_class_name('glowDoneButton')
-    done_button.click()
+browser.implicitly_wait(5)
+proceed_to_checkout = browser.find_element_by_id('hlb-ptc-btn-native')
+proceed_to_checkout.click()
 
-except Exception as error:
-    print('FAILED to click on yellow Done button')
-    print(error)
+place_order = browser.find_element_by_name('placeYourOrder1')
+place_order.click()
+print('Order placed successfully!')
